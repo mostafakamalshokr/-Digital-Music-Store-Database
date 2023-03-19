@@ -1,0 +1,48 @@
+/* Query 1 */
+
+SELECT
+  STRFTIME('%Y', invoicedate) ord_date,
+  SUM(i.total) Total
+FROM customer c
+JOIN invoice i
+  ON c.customerid = i.customerid
+WHERE country = 'USA'
+GROUP BY ord_date;
+
+/* Query 2 */
+SELECT
+  country,
+  COUNT(t.name) trackcount
+FROM customer c
+JOIN invoice iv
+  ON c.customerid = iv.CustomerId
+JOIN invoiceline inl
+  ON inl.invoiceid = iv.InvoiceId
+JOIN track t
+  ON t.trackid = inl.TrackId
+GROUP BY country
+ORDER BY trackcount DESC
+LIMIT 10;
+
+/* Query 3 */
+SELECT
+  ar.name,
+  SUM(t.unitprice) total_money
+FROM track t
+JOIN album al
+  ON t.albumid = al.albumid
+JOIN artist ar
+  ON ar.artistid = al.artistid
+GROUP BY ar.name
+ORDER BY total_money DESC
+limit 10;
+
+/* Query 4 */
+ELECT g.name,
+       sum(t.UnitPrice)totalsales
+FROM genre g
+JOIN track t 
+  ON g.genreid= t.genreid
+GROUP BY g.name
+ORDER BY totalsales DESC
+LIMIT 10;
